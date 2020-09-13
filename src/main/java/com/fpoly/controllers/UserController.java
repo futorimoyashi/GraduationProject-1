@@ -1,16 +1,17 @@
 package com.fpoly.controllers;
 
+import com.fpoly.helper.JWTHelper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fpoly.models.UserApplication;
 import com.fpoly.services.UserService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -24,27 +25,32 @@ public class UserController {
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
 
-	@GetMapping
-	public List<UserApplication> getUsers(){
-		return (List<UserApplication>) userService.findAll();
+	@GetMapping("/select")
+	public List<UserApplication> selectAll() {
+		return userService.findAll();
 	}
 
 	@PostMapping("/signup")
-	public ResponseEntity<?> signUp(@RequestBody UserApplication userApplication){
-		userApplication.setPassword(bCryptPasswordEncoder.encode(userApplication.getPassword()));
-		userService.save(userApplication);
-		return new ResponseEntity(HttpStatus.OK);
+	public ResponseEntity signUp(@RequestBody UserApplication newUser){
+		if(!userService.existsById(newUser.getUsername())){
+			newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
+			userService.save(newUser);
+			return new ResponseEntity(HttpStatus.CREATED);
+		}
+		return new ResponseEntity(HttpStatus.BAD_REQUEST);
 	}
-	
-	@GetMapping("/select")
-	public List<UserApplication> selectAll() {
-		List<UserApplication> users = (List<UserApplication>) userService.findAll();
-		return users;
-	}
-	
-	@GetMapping("/update")
-	public ResponseEntity<?> update(@RequestBody UserApplication userApplication) {
-		userService.save(userApplication);
-		return new ResponseEntity(HttpStatus.OK);
+
+	@PostMapping("/update")
+	public ResponseEntity update(@RequestBody UserApplication newUser, @RequestHeader("Authorization") String jwt) {
+		Optional<UserApplication> optionalUser = userService.findById(newUser.getUsername());
+		UserApplication oldUser;
+		if(optionalUser.isPresent() && JWTHelper.getUsername(jwt).equals(optionalUser.get().getUsername())){
+			oldUser = optionalUser.get();
+			oldUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
+			oldUser.setEmail(newUser.getEmail());
+			userService.save(oldUser);
+			return new ResponseEntity(HttpStatus.OK);
+		}
+		return new ResponseEntity(HttpStatus.NOT_FOUND);
 	}
 }
