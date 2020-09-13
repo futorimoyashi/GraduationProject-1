@@ -2,48 +2,30 @@ package com.fpoly.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
-import com.fpoly.models.UserApplication;
-import com.fpoly.services.UserService;
-
-import java.util.List;
+import com.fpoly.models.Comment;
+import com.fpoly.services.CommentService;
 
 @RestController
 @RequestMapping("/users")
 public class CommentController {
 
-	private UserService userService;
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private CommentService commentService;
 
-	public CommentController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
-		this.userService = userService;
-		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	public CommentController(CommentService commentService) {
+		this.commentService = commentService;
 	}
 
-	@GetMapping
-	public List<UserApplication> getUsers(){
-		return (List<UserApplication>) userService.findAll();
-	}
-
-	@PostMapping("/signup")
-	public ResponseEntity<?> signUp(@RequestBody UserApplication userApplication){
-		userApplication.setPassword(bCryptPasswordEncoder.encode(userApplication.getPassword()));
-		userService.save(userApplication);
-		return new ResponseEntity(HttpStatus.OK);
+	@GetMapping("/")
+	public List<Comment> getComments(){
+		return (List<Comment>) commentService.findAll();
 	}
 	
-	@GetMapping("/select")
-	public List<UserApplication> selectAll() {
-		List<UserApplication> users = (List<UserApplication>) userService.findAll();
-		return users;
-	}
-	
-	@GetMapping("/update")
-	public ResponseEntity<?> update(@RequestBody UserApplication userApplication) {
-		userService.save(userApplication);
+	@GetMapping("/add")
+	public ResponseEntity<?> add(@RequestBody Comment comment) {
+		commentService.save(comment);
 		return new ResponseEntity(HttpStatus.OK);
 	}
 }
