@@ -23,9 +23,15 @@ public class CollectionController {
 		return (List<Collection>) collectionService.findAll();
 	}
 	
-	@GetMapping("/add")
+	@PostMapping("/add")
 	public ResponseEntity<?> add(@RequestBody Collection collection) {
 		collectionService.save(collection);
 		return new ResponseEntity(HttpStatus.OK);
 	}
+	
+	@PostMapping("/update")
+	public ResponseEntity<?> update(@RequestBody Collection collection) {
+		collectionService.save(collection);
+		return new ResponseEntity(HttpStatus.OK);
+	} 
 }
