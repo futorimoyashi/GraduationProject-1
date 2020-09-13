@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fpoly.models.UserApplication;
 import com.fpoly.services.UserService;
 

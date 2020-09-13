@@ -18,8 +18,10 @@ public class Collection {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date date;
     private String description;
+    private String name;
+    private boolean isPublic;
 
-    @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "collection", cascade = CascadeType.ALL)
     private List<Frame> frameList;
 
     @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL)
@@ -35,10 +37,12 @@ public class Collection {
     public Collection() {
     }
 
-    public Collection(int id, Date date, String description, List<Frame> frameList, List<Comment> commentList, List<Like> likeList, UserApplication user) {
+    public Collection(int id, Date date, String description, String name, boolean isPublic, List<Frame> frameList, List<Comment> commentList, List<Like> likeList, UserApplication user) {
         this.id = id;
         this.date = date;
         this.description = description;
+        this.name = name;
+        this.isPublic = isPublic;
         this.frameList = frameList;
         this.commentList = commentList;
         this.likeList = likeList;
@@ -67,6 +71,14 @@ public class Collection {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Frame> getFrameList() {
@@ -100,4 +112,12 @@ public class Collection {
     public void setUser(UserApplication user) {
         this.user = user;
     }
+    
+    public boolean isPublic() {
+		return isPublic;
+	}
+
+	public void setPublic(boolean isPublic) {
+		this.isPublic = isPublic;
+	}
 }

@@ -4,6 +4,7 @@ import com.fpoly.models.Collection;
 import com.fpoly.repositories.CollectionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,13 +22,18 @@ public class CollectionServiceImpl implements CollectionService{
     }
 
     @Override
-    public Iterable<Collection> saveAll(Iterable<Collection> iterable) {
-        return collectionRepository.saveAll(iterable);
+    public List<Collection> saveAll(List<Collection> iterable) {
+        return (List<Collection>) collectionRepository.saveAll(iterable);
     }
 
     @Override
     public Optional<Collection> findById(Integer integer) {
         return collectionRepository.findById(integer);
+    }
+    
+    @Override
+	public List<Collection> findByNameLikeOrderByName(String Name) {
+    	return (List<Collection>) collectionRepository.findByNameLikeOrderByName("%" + Name + "%");
     }
 
     @Override
@@ -36,13 +42,13 @@ public class CollectionServiceImpl implements CollectionService{
     }
 
     @Override
-    public Iterable<Collection> findAll() {
-        return collectionRepository.findAll();
+    public List<Collection> findAll() {
+        return (List<Collection>) collectionRepository.findAll();
     }
 
     @Override
-    public Iterable<Collection> findAllById(Iterable<Integer> iterable) {
-        return collectionRepository.findAllById(iterable);
+    public List<Collection> findAllById(List<Integer> iterable) {
+        return (List<Collection>) collectionRepository.findAllById(iterable);
     }
 
     @Override
