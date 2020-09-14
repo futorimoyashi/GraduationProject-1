@@ -1,5 +1,7 @@
 package com.fpoly.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,6 +15,7 @@ public class Frame {
     private String audio;
 
     @OneToMany(mappedBy = "frame", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<ArrayImage> imageList;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

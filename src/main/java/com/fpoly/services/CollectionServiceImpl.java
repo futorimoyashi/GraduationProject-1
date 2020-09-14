@@ -40,9 +40,9 @@ public class CollectionServiceImpl implements CollectionService{
 	}
 
 	@Override
-	public Iterable<Collection> findAll() {
-		return collectionRepository.findAll();
-	}
+    public List<Collection> findAll() {
+        return (List<Collection>) collectionRepository.findAll();
+    }
 
 	@Override
 	public List<Collection> findAllById(List<Integer> ids) {

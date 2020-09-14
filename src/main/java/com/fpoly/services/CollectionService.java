@@ -19,7 +19,7 @@ public interface CollectionService {
 
 	List<Collection> findAllById(List<Integer> ids);
 
-	Iterable<Collection> findAll();
+	List<Collection> findAll();
 
 	boolean existsById(Integer id);
 

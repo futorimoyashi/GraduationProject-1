@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
 import com.fpoly.models.Collection;
-import com.fpoly.models.UserApplication;
 import com.fpoly.services.CollectionService;
 
 @RestController
@@ -20,19 +19,19 @@ public class CollectionController {
 	}
 
 	@GetMapping("/")
-	public List<Collection> getAll() {
-		return (List<Collection>) collectionService.findAll();
+	public List<Collection> getCollections(){
+		return collectionService.findAll();
 	}
 	
-	@PostMapping("/add")
+	@GetMapping("/add")
 	public ResponseEntity<?> add(@RequestBody Collection collection) {
 		collectionService.save(collection);
 		return new ResponseEntity(HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/update")
 	public ResponseEntity<?> update(@RequestBody Collection collection) {
 		collectionService.save(collection);
 		return new ResponseEntity(HttpStatus.OK);
-	} 
+	}
 }
