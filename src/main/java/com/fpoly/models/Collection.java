@@ -1,5 +1,6 @@
 package com.fpoly.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -25,9 +26,11 @@ public class Collection {
     private List<Frame> frameList;
 
     @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Comment> commentList;
 
     @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Like> likeList;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
