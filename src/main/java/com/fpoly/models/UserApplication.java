@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.List;
 
 @Entity
@@ -30,6 +28,10 @@ public class UserApplication {
     private List<Like> likeList;
 
     public UserApplication() {
+    }
+
+    public UserApplication(String username){
+        this.username = username;
     }
 
     public UserApplication(String username, String password, String email, List<Comment> commentList, List<Collection> collectionList, List<Like> likeList) {

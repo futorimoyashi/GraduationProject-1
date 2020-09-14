@@ -42,6 +42,10 @@ public class Collection {
     public Collection() {
     }
 
+    public Collection(int id){
+        this.id = id;
+    }
+
     public Collection(int id, Date date, String description, String name, boolean isPublic, List<Frame> frameList, List<Comment> commentList, List<Like> likeList, UserApplication user) {
         this.id = id;
         this.date = date;

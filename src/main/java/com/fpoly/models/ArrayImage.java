@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class ArrayImage {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String imageUrl;
 
