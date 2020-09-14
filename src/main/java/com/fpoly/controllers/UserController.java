@@ -1,6 +1,9 @@
 package com.fpoly.controllers;
 
+import com.fasterxml.jackson.databind.util.BeanUtil;
+import com.fpoly.dtos.UserDto;
 import com.fpoly.helper.JWTHelper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.fpoly.models.UserApplication;
 import com.fpoly.services.UserService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
@@ -30,21 +35,22 @@ public class UserController {
 	}
 
 	@PostMapping("/signup")
-	public ResponseEntity signUp(@RequestBody UserApplication newUser){
+	public ResponseEntity signUp(@Valid @RequestBody UserDto newUser){
 		if(!userService.existsById(newUser.getUsername())){
-			newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
-			userService.save(newUser);
+			UserApplication user = new UserApplication();
+			BeanUtils.copyProperties(newUser, user);
+			user.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
+			userService.save(user);
 			return new ResponseEntity(HttpStatus.CREATED);
 		}
 		return new ResponseEntity(HttpStatus.BAD_REQUEST);
 	}
 
 	@PostMapping("/update")
-	public ResponseEntity update(@RequestBody UserApplication newUser, @RequestHeader("Authorization") String jwt) {
+	public ResponseEntity update(@Valid @RequestBody UserDto newUser, @RequestHeader("Authorization") String jwt) {
 		Optional<UserApplication> optionalUser = userService.findById(newUser.getUsername());
-		UserApplication oldUser;
 		if(optionalUser.isPresent() && JWTHelper.getUsername(jwt).equals(optionalUser.get().getUsername())){
-			oldUser = optionalUser.get();
+			UserApplication oldUser = optionalUser.get();
 			oldUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
 			oldUser.setEmail(newUser.getEmail());
 			userService.save(oldUser);
