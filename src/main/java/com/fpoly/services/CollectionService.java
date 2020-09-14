@@ -1,32 +1,34 @@
 package com.fpoly.services;
 
-import com.fpoly.models.Collection;
-
 import java.util.List;
 import java.util.Optional;
 
+import com.fpoly.models.Collection;
+
 public interface CollectionService {
-    Collection save(Collection entity);
 
-    Iterable<Collection> saveAll(List<Collection> iterable);
+	void deleteAll();
 
-    Optional<Collection> findById(Integer integer);
+	void deleteAll(List<Collection> entities);
 
-    boolean existsById(Integer integer);
+	void delete(Collection entity);
 
-    List<Collection> findAll();
+	void deleteById(Integer id);
 
-    List<Collection> findAllById(List<Integer> iterable);
+	long count();
 
-    long count();
+	List<Collection> findAllById(List<Integer> ids);
 
-    void deleteById(Integer integer);
+	Iterable<Collection> findAll();
 
-    void delete(Collection collection);
+	boolean existsById(Integer id);
 
-    void deleteAll(Iterable<? extends Collection> iterable);
+	Optional<Collection> findById(Integer id);
 
-    void deleteAll();
+	List<Collection> saveAll(List<Collection> entities);
+
+	Collection save(Collection entity);
 
 	List<Collection> findByNameLikeOrderByName(String Name);
+
 }

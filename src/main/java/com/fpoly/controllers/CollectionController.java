@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
 import com.fpoly.models.Collection;
+import com.fpoly.models.UserApplication;
 import com.fpoly.services.CollectionService;
 
 @RestController
@@ -19,7 +20,7 @@ public class CollectionController {
 	}
 
 	@GetMapping("/")
-	public List<Collection> getCollections(){
+	public List<Collection> getAll() {
 		return (List<Collection>) collectionService.findAll();
 	}
 	

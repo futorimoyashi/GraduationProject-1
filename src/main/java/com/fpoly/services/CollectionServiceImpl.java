@@ -1,78 +1,77 @@
 package com.fpoly.services;
 
-import com.fpoly.models.Collection;
-import com.fpoly.repositories.CollectionRepository;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.fpoly.models.Collection;
+import com.fpoly.repositories.CollectionRepository;
+
 @Service
 public class CollectionServiceImpl implements CollectionService{
+	@Autowired
+	private CollectionRepository collectionRepository;
 
-    private CollectionRepository collectionRepository;
-
-    public CollectionServiceImpl(CollectionRepository collectionRepository) {
-        this.collectionRepository = collectionRepository;
-    }
-
-    @Override
-    public Collection save(Collection entity) {
-        return collectionRepository.save(entity);
-    }
-
-    @Override
-    public List<Collection> saveAll(List<Collection> iterable) {
-        return (List<Collection>) collectionRepository.saveAll(iterable);
-    }
-
-    @Override
-    public Optional<Collection> findById(Integer integer) {
-        return collectionRepository.findById(integer);
-    }
-    
-    @Override
+	@Override
 	public List<Collection> findByNameLikeOrderByName(String Name) {
-    	return (List<Collection>) collectionRepository.findByNameLikeOrderByName("%" + Name + "%");
-    }
+		return collectionRepository.findByNameLikeOrderByName("%" + Name + "%");
+	}
 
-    @Override
-    public boolean existsById(Integer integer) {
-        return collectionRepository.existsById(integer);
-    }
+	@Override
+	public Collection save(Collection entity) {
+		return collectionRepository.save(entity);
+	}
 
-    @Override
-    public List<Collection> findAll() {
-        return (List<Collection>) collectionRepository.findAll();
-    }
+	@Override
+	public List<Collection> saveAll(List<Collection> entities) {
+		return (List<Collection>) collectionRepository.saveAll(entities);
+	}
 
-    @Override
-    public List<Collection> findAllById(List<Integer> iterable) {
-        return (List<Collection>) collectionRepository.findAllById(iterable);
-    }
+	@Override
+	public Optional<Collection> findById(Integer id) {
+		return collectionRepository.findById(id);
+	}
 
-    @Override
-    public long count() {
-        return collectionRepository.count();
-    }
+	@Override
+	public boolean existsById(Integer id) {
+		return collectionRepository.existsById(id);
+	}
 
-    @Override
-    public void deleteById(Integer integer) {
-        collectionRepository.deleteById(integer);
-    }
+	@Override
+	public Iterable<Collection> findAll() {
+		return collectionRepository.findAll();
+	}
 
-    @Override
-    public void delete(Collection collection) {
-        collectionRepository.delete(collection);
-    }
+	@Override
+	public List<Collection> findAllById(List<Integer> ids) {
+		return (List<Collection>) collectionRepository.findAllById(ids);
+	}
 
-    @Override
-    public void deleteAll(Iterable<? extends Collection> iterable) {
-        collectionRepository.deleteAll(iterable);
-    }
+	@Override
+	public long count() {
+		return collectionRepository.count();
+	}
 
-    @Override
-    public void deleteAll() {
-        collectionRepository.deleteAll();
-    }
+	@Override
+	public void deleteById(Integer id) {
+		collectionRepository.deleteById(id);
+	}
+
+	@Override
+	public void delete(Collection entity) {
+		collectionRepository.delete(entity);
+	}
+
+	@Override
+	public void deleteAll(List<Collection> entities) {
+		collectionRepository.deleteAll(entities);
+	}
+
+	@Override
+	public void deleteAll() {
+		collectionRepository.deleteAll();
+	}
+	
 }
