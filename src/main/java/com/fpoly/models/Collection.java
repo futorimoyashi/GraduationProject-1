@@ -23,6 +23,7 @@ public class Collection {
     private boolean isPublic;
 
 	@OneToMany(mappedBy = "collection", cascade = CascadeType.ALL)
+	@JsonIgnore
     private List<Frame> frameList;
 
     @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL)
@@ -35,6 +36,7 @@ public class Collection {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "username")
+    @JsonIgnore
     private UserApplication user;
 
     public Collection() {
